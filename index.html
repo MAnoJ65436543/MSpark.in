@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSpark - Product Thinking. Market Spark.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #F6F6F4;
+            color: #241C15;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: rgba(246, 246, 244, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(36, 28, 21, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #241C15;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: #241C15;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: #FFE01B;
+        }
+
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #FFE01B;
+            border-radius: 1px;
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #FFE01B 0%, #F6F6F4 100%);
+            border-radius: 20px;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 40px rgba(36, 28, 21, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #241C15;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #241C15;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #241C15;
+            color: #F6F6F4;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(36, 28, 21, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(36, 28, 21, 0.3);
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            opacity: 0.7;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Blog Grid */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(36, 28, 21, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(36, 28, 21, 0.15);
+        }
+
+        .blog-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+        }
+
+        .blog-date {
+            font-size: 0.9rem;
+            color: #FFE01B;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .blog-summary {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .read-more {
+            color: #241C15;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #FFE01B;
+        }
+
+        /* Page Navigation */
+        .page-nav {
+            display: none;
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 1rem;
+            border-radius: 50px;
+            box-shadow: 0 8px 30px rgba(36, 28, 21, 0.15);
+            gap: 1rem;
+        }
+
+        .page-nav button {
+            background: #F6F6F4;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .page-nav button:hover,
+        .page-nav button.active {
+            background: #FFE01B;
+            color: #241C15;
+        }
+
+        /* Footer */
+        .footer {
+            background: #241C15;
+            color: #F6F6F4;
+            padding: 3rem 0 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #F6F6F4;
+                flex-direction: column;
+                padding: 1rem 2rem;
+                box-shadow: 0 4px 20px rgba(36, 28, 21, 0.1);
+                border-radius: 0 0 16px 16px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        /* Current Page Indicators */
+        .current-page {
+            position: relative;
+        }
+
+        /* About Page Styles */
+        .about-section {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(36, 28, 21, 0.1);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .skill-tag {
+            background: #FFE01B;
+            color: #241C15;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Form Styles */
+        .contact-section {
+            display: none;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(36, 28, 21, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #F6F6F4;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FFE01B;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: #241C15;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        /* Case Studies Styles */
+        .case-studies-section {
+            display: none;
+        }
+
+        .case-studies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .case-study-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(36, 28, 21, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .case-study-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(36, 28, 21, 0.15);
+        }
+
+        .case-study-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .case-study-content {
+            padding: 1.5rem;
+        }
+
+        .case-study-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .case-study-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .view-case-study {
+            color: #241C15;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .view-case-study:hover {
+            color: #FFE01B;
+        }
+
+        /* Blog listing page styles */
+        .blog-section {
+            display: none;
+        }
+
+        .blog-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .blog-list-item {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(36, 28, 21, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .blog-list-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(36, 28, 21, 0.15);
+        }
+
+        .blog-list-date {
+            color: #FFE01B;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-list-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #241C15;
+        }
+
+        .blog-list-summary {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">MSpark</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-page="blog">Blog</a></li>
+                    <li><a href="#" class="nav-link" data-page="case-studies">Case Studies</a></li>
+                    <li><a href="#" class="nav-link" data-page="about">About</a></li>
+                    <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu">☰</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="home-page" class="page-content">
+            <div class="container">
+                <section class="hero">
+                    <h1>MSpark</h1>
+                    <p>Product Thinking. Market Spark.</p>
+                    <a href="#" class="cta-button nav-link" data-page="blog">Read Latest Insights</a>
+                </section>
+
+                <section class="section-header">
+                    <h2>Latest Blog Posts</h2>
+                    <p>Insights on product management, market strategy, and building winning products</p>
+                </section>
+
+                <div class="blog-grid" id="featured-blogs">
+                    <div class="loading">Loading latest posts...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Page -->
+        <div id="blog-page" class="page-content blog-section">
+            <div class="container">
+                <section class="section-header">
+                    <h2>All Blog Posts</h2>
+                    <p>Product insights, case studies, and market analysis</p>
+                </section>
+
+                <div class="blog-list" id="all-blogs">
+                    <div class="loading">Loading all posts...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Case Studies Page -->
+        <div id="case-studies-page" class="page-content case-studies-section">
+            <div class="container">
+                <section class="section-header">
+                    <h2>Case Studies</h2>
+                    <p>Deep dives into successful product strategies and market wins</p>
+                </section>
+
+                <div class="case-studies-grid" id="case-studies-grid">
+                    <!-- Case studies will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page -->
+        <div id="about-page" class="page-content about-section">
+            <div class="container">
+                <section class="section-header">
+                    <h2>About Me</h2>
+                    <p>From pharmacy to product management - my journey in building great products</p>
+                </section>
+
+                <div class="about-content">
+                    <h3>Background</h3>
+                    <p>I'm a pharmacy graduate with an MBA who's passionate about product management. My unique background gives me a deep understanding of both healthcare products and business strategy, allowing me to approach product challenges from multiple angles.</p>
+                    
+                    <h3>My Journey</h3>
+                    <p>Starting in pharmacy gave me a strong foundation in understanding user needs - in this case, patients and healthcare providers. The transition to business school opened my eyes to the strategic side of product development, market positioning, and growth strategies.</p>
+                    
+                    <h3>What I'm Looking For</h3>
+                    <p>I'm actively seeking product management opportunities where I can apply my analytical skills, user empathy, and strategic thinking to build products that make a real difference in people's lives.</p>
+                    
+                    <h3>Skills & Tools</h3>
+                    <div class="skills-grid">
+                        <div class="skill-tag">Figma</div>
+                        <div class="skill-tag">Excel</div>
+                        <div class="skill-tag">Mixpanel</div>
+                        <div class="skill-tag">SQL</div>
+                        <div class="skill-tag">Python</div>
+                        <div class="skill-tag">Market Research</div>
+                        <div class="skill-tag">User Research</div>
+                        <div class="skill-tag">Data Analysis</div>
+                        <div class="skill-tag">A/B Testing</div>
+                        <div class="skill-tag">Product Strategy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact-page" class="page-content contact-section">
+            <div class="container">
+                <section class="section-header">
+                    <h2>Let's Connect</h2>
+                    <p>Interested in collaborating or just want to chat about product strategy?</p>
+                </section>
+
+                <form class="contact-form" id="contact-form">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required placeholder="Tell me about your project or just say hello!"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+
+                <div style="text-align: center; margin-top: 2rem; opacity: 0.7;">
+                    <p>Or reach out directly: <strong>hello@mspark.com</strong></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 MSpark. Product Thinking. Market Spark.</p>
+        </div>
+    </footer>
+
+    <!-- Blog Data -->
+    <script>
+        // Blog data - easily editable
+        const blogs = [
+            {
+                title: "Why WOW Skin Science Wins in D2C",
+                date: "June 25, 2025",
+                image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=200&fit=crop",
+                summary: "How they built retention loops using content, not coupons. A deep dive into WOW's product-led growth strategy.",
+                link: "wow-blog.html"
+            },
+            {
+                title: "The Nykaa Playbook: From Beauty to Everything",
+                date: "June 24, 2025",
+                image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=400&h=200&fit=crop",
+                summary: "How Nykaa expanded beyond beauty while maintaining brand trust. Lessons in category expansion and platform strategy.",
+                link: "nykaa-blog.html"
+            },
+            {
+                title: "Zerodha's No-Frills Success: Product Lessons from Fintech",
+                date: "June 23, 2025",
+                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400&h=200&fit=crop",
+                summary: "Why less features led to more users. Analyzing Zerodha's minimalist approach to product design and pricing.",
+                link: "zerodha-blog.html"
+            },
+            {
+                title: "Swiggy vs Zomato: The Product Differentiation Game",
+                date: "June 22, 2025",
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=200&fit=crop",
+                summary: "How two similar platforms created distinct product experiences. A comparative study of feature prioritization.",
+                link: "swiggy-zomato-blog.html"
+            },
+            {
+                title: "Paytm's Super App Strategy: What Went Wrong?",
+                date: "June 21, 2025",
+                image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400&h=200&fit=crop",
+                summary: "Lessons from Paytm's ambitious but flawed super app approach. Understanding user behavior and product focus.",
+                link: "paytm-blog.html"
+            },
+            {
+                title: "CRED's Gamification: Engagement or Addiction?",
+                date: "June 20, 2025",
+                image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=200&fit=crop",
+                summary: "Analyzing CRED's unique approach to user engagement through gamification and exclusive rewards.",
+                link: "cred-blog.html"
+            }
+        ];
+
+        // Case studies data
+        const caseStudies = [
+            {
+                title: "WOW Skin Science",
+                image: "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=300&h=180&fit=crop",
+                description: "Content-driven retention strategy that reduced customer acquisition costs by 40%",
+                link: "wow-case-study.html"
+            },
+            {
+                title: "Nykaa Beauty Platform",
+                image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=300&h=180&fit=crop",
+                description: "Multi-category platform expansion while maintaining 90%+ customer satisfaction",
+                link: "nykaa-case-study.html"
+            },
+            {
+                title: "Zerodha Trading Platform",
+                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=300&h=180&fit=crop",
+                description: "Minimalist design philosophy that captured 15% market share in 3 years",
+                link: "zerodha-case-study.html"
+            },
+            {
+                title: "Urban Company Service Marketplace",
+                image: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=300&h=180&fit=crop",
+                description: "Two-sided marketplace optimization increasing provider efficiency by 60%",
+                link: "urban-company-case-study.html"
+            },
+            {
+                title: "PharmEasy Digital Health",
+                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=300&h=180&fit=crop",
+                description: "Healthcare digitization strategy improving medication adherence by 70%",
+                link: "pharmeasy-case-study.html"
+            },
+            {
+                title: "BYJU'S Learning Platform",
+                image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=300&h=180&fit=crop",
+                description: "Personalized learning algorithms increasing student engagement by 80%",
+                link: "byjus-case-study.html"
+            }
+        ];
+    </script>
+
+    <!-- Main JavaScript -->
+    <script>
+        // DOM elements
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageContents = document.querySelectorAll('.page-content');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navMenu = document.querySelector('.nav-menu');
+
+        // Navigation functionality
+        function showPage(pageId) {
+            // Hide all pages
+            pageContents.forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId + '-page');
+            if (targetPage) {
+                targetPage.style.display = 'block';
+            }
+            
+            // Update active nav link
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Load content based on page
+            if (pageId === 'home') {
+                loadFeaturedBlogs();
+            } else if (pageId === 'blog') {
+                loadAllBlogs();
+            } else if (pageId === 'case-studies') {
+                loadCaseStudies();
+            }
+            
+            // Close mobile menu
+            navMenu.classList.remove('active');
+        }
+
+        // Event listeners for navigation
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pageId = link.getAttribute('data-page');
+                showPage(pageId);
+            });
+        });
+
+        // Mobile menu toggle
+        mobileMenu.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Load featured blogs (first 3 for homepage)
+        function loadFeaturedBlogs() {
+            const container = document.getElementById('featured-blogs');
+            const featuredBlogs = blogs.slice(0, 3);
+            
+            container.innerHTML = featuredBlogs.map(blog => `
+                <article class="blog-card" onclick="openBlog('${blog.link}')">
+                    <img src="${blog.image}" alt="${blog.title}" loading="lazy">
+                    <div class="blog-card-content">
+                        <div class="blog-date">${blog.date}</div>
+                        <h3>${blog.title}</h3>
+                        <p class="blog-summary">${blog.summary}</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Load all blogs
+        function loadAllBlogs() {
+            const container = document.getElementById('all-blogs');
+            
+            container.innerHTML = blogs.map(blog => `
+                <article class="blog-list-item" onclick="openBlog('${blog.link}')">
+                    <div class="blog-list-date">${blog.date}</div>
+                    <h3 class="blog-list-title">${blog.title}</h3>
+                    <p class="blog-list-summary">${blog.summary}</p>
+                    <a href="#" class="read-more">Read Full Post →</a>
+                </article>
+            `).join('');
+        }
+
+        // Load case studies
+        function loadCaseStudies() {
+            const container = document.getElementById('case-studies-grid');
+            
+            container.innerHTML = caseStudies.map(study => `
+                <article class="case-study-card" onclick="openCaseStudy('${study.link}')">
+                    <img src="${study.image}" alt="${study.title}" loading="lazy">
+                    <div class="case-study-content">
+                        <h3>${study.title}</h3>
+                        <p class="case-study-description">${study.description}</p>
+                        <a href="#" class="view-case-study">View Full Case Study →</a>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        // Open blog post (placeholder function)
+        function openBlog(link) {
+            alert(`This would open: ${link}\n\nIn a real implementation, you would:\n1. Create individual blog post HTML files\n2. Use routing to navigate to them\n3. Or load content dynamically`);
+        }
+
+        // Open case study (placeholder function)
+        function openCaseStudy(link) {
